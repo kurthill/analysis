@@ -107,6 +107,12 @@ int pFlowTreeMaker::Init(PHCompositeNode *topNode)
   _tree->Branch("track_proj_phi_layer0", _b_track_proj_phi_layer0,"track_proj_phi_layer0[track_n]/F");
   _tree->Branch("track_proj_phi_layer1", _b_track_proj_phi_layer1,"track_proj_phi_layer1[track_n]/F");
   _tree->Branch("track_proj_phi_layer2", _b_track_proj_phi_layer2,"track_proj_phi_layer2[track_n]/F");
+  _tree->Branch("track_cal_energy_3x3_layer0", _b_track_cal_energy_3x3_layer0,"track_cal_energy_3x3_layer0[track_n]/F");
+  _tree->Branch("track_cal_energy_3x3_layer1", _b_track_cal_energy_3x3_layer1,"track_cal_energy_3x3_layer1[track_n]/F");
+  _tree->Branch("track_cal_energy_3x3_layer2", _b_track_cal_energy_3x3_layer2,"track_cal_energy_3x3_layer2[track_n]/F");
+  _tree->Branch("track_cal_energy_5x5_layer0", _b_track_cal_energy_5x5_layer0,"track_cal_energy_5x5_layer0[track_n]/F");
+  _tree->Branch("track_cal_energy_5x5_layer1", _b_track_cal_energy_5x5_layer1,"track_cal_energy_5x5_layer1[track_n]/F");
+  _tree->Branch("track_cal_energy_5x5_layer2", _b_track_cal_energy_5x5_layer2,"track_cal_energy_5x5_layer2[track_n]/F");
 
   return 0;
 
@@ -375,6 +381,13 @@ int pFlowTreeMaker::process_event(PHCompositeNode *topNode)
     _b_track_dphi_layer0[ _b_track_n ] = track->get_cal_dphi(SvtxTrack::CEMC);
     _b_track_dphi_layer1[ _b_track_n ] = track->get_cal_dphi(SvtxTrack::HCALIN);
     _b_track_dphi_layer2[ _b_track_n ] = track->get_cal_dphi(SvtxTrack::HCALOUT);
+
+    _b_track_cal_energy_3x3_layer0[ _b_track_n ] = track->get_cal_energy_3x3(SvtxTrack::CEMC);
+    _b_track_cal_energy_3x3_layer1[ _b_track_n ] = track->get_cal_energy_3x3(SvtxTrack::HCALIN);
+    _b_track_cal_energy_3x3_layer2[ _b_track_n ] = track->get_cal_energy_3x3(SvtxTrack::HCALOUT);
+    _b_track_cal_energy_5x5_layer0[ _b_track_n ] = track->get_cal_energy_5x5(SvtxTrack::CEMC);
+    _b_track_cal_energy_5x5_layer1[ _b_track_n ] = track->get_cal_energy_5x5(SvtxTrack::HCALIN);
+    _b_track_cal_energy_5x5_layer2[ _b_track_n ] = track->get_cal_energy_5x5(SvtxTrack::HCALOUT);
 
     // find the track projections to the calorimeters
     //
