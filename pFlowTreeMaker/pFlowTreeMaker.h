@@ -91,6 +91,12 @@ class pFlowTreeMaker: public SubsysReco
   float _b_track_cal_energy_5x5_layer1[1000];
   float _b_track_cal_energy_5x5_layer2[1000];
 
+  int _b_jet_n;
+  float _b_jet_e[500];
+  float _b_jet_pt[500];
+  float _b_jet_eta[500];
+  float _b_jet_phi[500];
+
 };
 
 #endif // __PFLOWTREEMAKER_H__

@@ -38,6 +38,10 @@
 #include <g4eval/SvtxVertexEval.h>
 #include <g4eval/SvtxTruthEval.h>
 
+#include <g4jets/JetMap.h>
+#include <g4jets/JetMapV1.h>
+#include <g4jets/Jet.h>
+#include <g4jets/JetV1.h>
 
 
 pFlowTreeMaker::pFlowTreeMaker(const std::string &name) : SubsysReco("pFlowTreeMaker"),
@@ -113,6 +117,13 @@ int pFlowTreeMaker::Init(PHCompositeNode *topNode)
   _tree->Branch("track_cal_energy_5x5_layer0", _b_track_cal_energy_5x5_layer0,"track_cal_energy_5x5_layer0[track_n]/F");
   _tree->Branch("track_cal_energy_5x5_layer1", _b_track_cal_energy_5x5_layer1,"track_cal_energy_5x5_layer1[track_n]/F");
   _tree->Branch("track_cal_energy_5x5_layer2", _b_track_cal_energy_5x5_layer2,"track_cal_energy_5x5_layer2[track_n]/F");
+
+
+  _tree->Branch("jet_n", &_b_jet_n,"jet_n/I");
+  _tree->Branch("jet_e", _b_jet_e,"jet_e[jet_n]/F");
+  _tree->Branch("jet_pt", _b_jet_pt,"jet_pt[jet_n]/F");
+  _tree->Branch("jet_eta", _b_jet_eta,"jet_eta[jet_n]/F");
+  _tree->Branch("jet_phi", _b_jet_phi,"jet_phi[jet_n]/F");
 
   return 0;
 
@@ -419,6 +430,21 @@ int pFlowTreeMaker::process_event(PHCompositeNode *topNode)
     _b_track_proj_eta_layer2[ _b_track_n ] = asinh(z/sqrt(x*x+y*y));;
 
     _b_track_n++;
+  }
+
+
+  // Now do jets
+  JetMap* jets = findNode::getClass<JetMap>(topNode,"AntiKt_Tower_r04");
+
+  // iterate over old jets
+  int _b_jet_n = 0;
+  for (JetMap::Iter iter = jets->begin(); iter != jets->end(); ++iter) 
+  {
+    Jet* this_jet = iter->second;
+    _b_jet_e[_b_jet_n] = this_jet->get_e();
+    _b_jet_pt[_b_jet_n] = this_jet->get_pt();
+    _b_jet_eta[_b_jet_n] = this_jet->get_eta();
+    _b_jet_phi[_b_jet_n] = this_jet->get_phi();
   }
 
 /*
